@@ -5,6 +5,8 @@ from PIL import ImageTk, Image
 CANVAS_WIDTH = 1400
 CANVAS_HEIGHT = 900
 
+PLAYER_SIZE = 30
+
 
 class Application(tk.Frame):
     def __init__(self, master=None):
@@ -12,6 +14,11 @@ class Application(tk.Frame):
         self.pack()
 
         self.draw_area = None
+        self.original_background_image = None
+        self.scaled_background_image = None  # Need a reference to prevent garbage collection
+        self.background_image = None
+
+        self.player_images = None
 
         self.create_widgets()
 
@@ -19,8 +26,26 @@ class Application(tk.Frame):
         self.draw_area = tk.Canvas(self, width=CANVAS_WIDTH, height=CANVAS_HEIGHT)
         self.draw_area.pack()
 
+        self.load_player_images()
+
+    def load_player_images(self):
+        self.player_images = dict()
+        gray = Image.open("resources/misc/player_gray.gif")
+        blue = Image.open("resources/misc/player_blue.gif")
+        green = Image.open("resources/misc/player_green.gif")
+
+        [img.thumbnail((PLAYER_SIZE, PLAYER_SIZE), Image.ANTIALIAS) for img in [gray, blue, green]]
+
+        self.player_images["gray"] = ImageTk.PhotoImage(gray)
+        self.player_images["blue"] = ImageTk.PhotoImage(blue)
+        self.player_images["green"] = ImageTk.PhotoImage(green)
+
+    def draw_players(self, player_positions):
+        for position in player_positions:
+            self.draw_area.create_image(position[0], position[1], image=self.player_images["gray"], anchor=tk.NW)
+
     def load_map(self, map_file):
-        self.original_background_image = (Image.open(map_file))
+        self.original_background_image = Image.open(map_file)
         self.scaled_background_image = self.original_background_image.copy()
         self.scaled_background_image.thumbnail((CANVAS_WIDTH, CANVAS_HEIGHT), Image.ANTIALIAS)
         self.background_image = ImageTk.PhotoImage(self.scaled_background_image)
