@@ -1,3 +1,4 @@
 junction-gaming/
 venv/
 .idea/
+*__pycache__/
