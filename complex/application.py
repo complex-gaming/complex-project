@@ -1,6 +1,7 @@
 import tkinter as tk
 
 from PIL import ImageTk, Image
+from random import randint
 
 CANVAS_WIDTH = 1400
 CANVAS_HEIGHT = 900
@@ -40,9 +41,17 @@ class Application(tk.Frame):
         self.player_images["blue"] = ImageTk.PhotoImage(blue)
         self.player_images["green"] = ImageTk.PhotoImage(green)
 
-    def draw_players(self, player_positions):
+    def create_players(self, player_positions):
+        player_num = 0
         for position in player_positions:
-            self.draw_area.create_image(position[0], position[1], image=self.player_images["gray"], anchor=tk.NW)
+            self.draw_area.create_image(position[0], position[1], image=self.player_images["gray"],
+                                        anchor=tk.NW, tags=str(player_num))
+            player_num += 1
+
+    def move_players(self, event=None):
+        for i in range(50):
+            self.draw_area.move(str(i), randint(-5, 5), randint(-5, 5))
+        self.draw_area.after(100, self.move_players)
 
     def load_map(self, map_file):
         self.original_background_image = Image.open(map_file)

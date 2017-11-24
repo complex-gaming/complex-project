@@ -23,10 +23,10 @@ def main():
     running_app = NSRunningApplication.runningApplicationWithProcessIdentifier_(os.getpid())
     running_app.activateWithOptions_(NSApplicationActivateIgnoringOtherApps)
     positions = get_player_positions()
-    app.draw_players(positions)
+    app.create_players(positions)
+    app.move_players()
 
     app.mainloop()
-
 
 
 def get_player_positions():
