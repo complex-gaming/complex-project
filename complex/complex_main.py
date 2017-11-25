@@ -37,7 +37,7 @@ game_map.load_map("Fools_Road_AAS_V1")
 background_image = game_map.scaled_map_image
 
 game_ticks = GameTicks("../junction-gaming/matches/37549105/sorted_ticks.csv")
-count = 0
+game_ticks.set_index(0)
 
 players = Players(game_map)
 #for i in range(10):
@@ -60,7 +60,6 @@ while not done:
 #        players_init = True
 
     data = game_ticks.get_next_tick_data()
-    print(data)
 
     # move players
     players.update_data(data)
