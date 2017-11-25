@@ -40,8 +40,6 @@ game_ticks = GameTicks("../junction-gaming/matches/37549105/sorted_ticks.csv")
 game_ticks.set_index(0)
 
 players = Players(game_map)
-#for i in range(10):
-#    players.add_player()
 
 done = False
 players_init = False
@@ -59,10 +57,10 @@ while not done:
 #            players.add_player()
 #        players_init = True
 
-    data = game_ticks.get_next_tick_data()
+    data, timestamp = game_ticks.get_next_tick_data()
 
     # move players
-    players.update_data(data)
+    players.update_data(data, timestamp)
 
     # update all
     all_group.update()
