@@ -26,12 +26,14 @@ class Players:
         rotation = randint(0, 360)
         player = Player(id, position, rotation, self.player_images[0], self.player_images_shoot[0],
                         self.game_map.map_corners)
+        if id in self.players:
+            self.players[id].remove()
         self.players[id] = player
 
     def move_player(self, id, data):
         player = self.players[id]
         player.set_position_and_orientation(data)
-        if randint(0, 9) == 5:
+        if randint(0, 100) == 5:
             player.shooting = True
         else:
             player.shooting = False
