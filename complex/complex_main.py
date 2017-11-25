@@ -11,7 +11,7 @@ from shooting_event import ShootingEvent
 # Define some colors
 WINDOW_HEIGHT = 900
 WINDOW_WIDTH = 900
-FPS = 2
+FPS = 60
 
 
 # Call this function so the Pygame library can initialize itself
@@ -39,9 +39,9 @@ background_image = game_map.scaled_map_image
 game_ticks = GameTicks("../junction-gaming/matches/37549105/sorted_ticks.csv")
 count = 0
 
-players = Players()
-for i in range(10):
-    players.add_player()
+players = Players(game_map)
+#for i in range(10):
+#    players.add_player()
 
 done = False
 players_init = False
@@ -54,16 +54,16 @@ while not done:
     # clear screen
     all_group.clear(screen, background_image)
 
-    if not players_init:
-        for i in range(10):
-            players.add_player()
-        players_init = True
+#    if not players_init:
+#        for i in range(10):
+#            players.add_player()
+#        players_init = True
 
     data = game_ticks.get_next_tick_data()
     print(data)
 
     # move players
-    players.move_players()
+    players.update_data(data)
 
     # update all
     all_group.update()
@@ -72,9 +72,9 @@ while not done:
     screen.blit(background_image, background_position)
 
     # update shooting events
-    screen.lock()
-    shooting_events = [ShootingEvent(screen, (randint(0, 900), randint(0, 900)), (randint(0, 900), randint(0, 900)))]
-    screen.unlock()
+#    screen.lock()
+#    shooting_events = [ShootingEvent(screen, (randint(0, 900), randint(0, 900)), (randint(0, 900), randint(0, 900)))]
+#    screen.unlock()
 
     dirty = all_group.draw(screen)
     pygame.display.update(dirty)

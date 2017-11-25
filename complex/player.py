@@ -1,12 +1,14 @@
 import pygame
 
 from random import randint
+WINDOW_WIDTH = 900
+WINDOW_HEIGHT = 900
 
 
 class Player(pygame.sprite.Sprite):
     containers = None
 
-    def __init__(self, id, position, orientation, image_normal, image_shoot):
+    def __init__(self, id, position, orientation, image_normal, image_shoot, map_corners):
         pygame.sprite.Sprite.__init__(self, self.containers)
         self.id = id
         self.position = position
@@ -19,6 +21,8 @@ class Player(pygame.sprite.Sprite):
         screen = pygame.display.get_surface()
         self.area = screen.get_rect()
         self.shooting = False
+        self.map_corners = map_corners
+        self.calculate_map_limits()
 
     def update(self):
         if not self.shooting:
@@ -26,12 +30,25 @@ class Player(pygame.sprite.Sprite):
         else:
             self.image = self.rot_center(self.image_shoot_clean, self.orientation)
         self.rect = self.image.get_rect()
-        self.rect.x = self.position[0]
-        self.rect.y = self.position[1]
+        self.rect.x, self.rect.y = self.scale_position()
 
-    def set_position_and_orientation(self, position, orientation):
-        self.position = position
-        self.orientation = orientation
+    def scale_position(self):
+        pos = self.position
+        x = (pos[0] - self.min_x)/(self.max_x - self.min_x) * WINDOW_WIDTH
+        y = (pos[1] - self.min_y)/(self.max_y - self.min_y) * WINDOW_HEIGHT
+        return x, y
+
+    def calculate_map_limits(self):
+        c = self.map_corners
+        self.min_x = min(c[0][0], c[1][0])
+        self.max_x = max(c[0][0], c[1][0])
+        self.min_y = min(c[0][1], c[1][1])
+        self.max_y = max(c[0][1], c[1][1])
+
+
+    def set_position_and_orientation(self, data):
+        self.position = data[0:2]
+        self.orientation = data[2]
 
     def set_shoot_status(self, status):
         self.shooting = status

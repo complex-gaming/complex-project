@@ -24,8 +24,8 @@ class GameMap:
             reader = csv.DictReader(f, delimiter=',')
 
             for row in reader:
-                self.all_map_corners[row["names"]] = ((row["Corner0_x"], row["Corner0_y"]),
-                                                      (row["Corner1_x"], row["Corner1_y"]))
+                self.all_map_corners[row["names"]] = ((float(row["Corner0_x"]), float(row["Corner0_y"])),
+                                                      (float(row["Corner1_x"]), float(row["Corner1_y"])))
 
     def load_map(self, map_name):
         for key in MINIMAPS:
@@ -33,8 +33,3 @@ class GameMap:
                 self.original_map_image = load_image(os.path.join("minimaps", MINIMAPS[key]))
                 self.scaled_map_image = pygame.transform.scale(self.original_map_image, (900, 900))
         self.map_corners = self.all_map_corners[map_name]
-
-
-
-
-
