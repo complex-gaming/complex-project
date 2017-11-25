@@ -1,4 +1,3 @@
-from appJar import gui
 from random import randint
 
 import tkinter as tk
@@ -15,6 +14,7 @@ def main():
     root = tk.Tk()
     root.resizable(width=False, height=False)
     root.geometry('{}x{}'.format(WINDOW_WIDTH, WINDOW_HEIGHT))
+    root.title("Complex GUI")
     app = Application(master=root)
 
     app.load_map("resources/minimaps/albasrah_minimap.gif")
@@ -22,10 +22,11 @@ def main():
     # Move to foreground
     running_app = NSRunningApplication.runningApplicationWithProcessIdentifier_(os.getpid())
     running_app.activateWithOptions_(NSApplicationActivateIgnoringOtherApps)
+    positions = get_player_positions()
+    app.create_players(positions)
+    app.move_players()
 
     app.mainloop()
-
-
 
 
 def get_player_positions():
