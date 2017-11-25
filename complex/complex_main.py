@@ -4,29 +4,14 @@ from random import randint
 import pygame
 
 from player import Player
+from players import Players
+from utils import load_images, load_image
 
 # Define some colors
 WINDOW_HEIGHT = 900
 WINDOW_WIDTH = 900
 FPS = 10
 
-main_dir = os.path.split(os.path.abspath(__file__))[0]
-
-
-def load_image(file):
-    file = os.path.join(main_dir, 'resources', file)
-    try:
-        surface = pygame.image.load(file)
-    except pygame.error:
-        raise SystemExit('Could not load image "%s" %s' % (file, pygame.get_error()))
-    return surface.convert()
-
-
-def load_images(*files):
-    imgs = []
-    for file in files:
-        imgs.append(load_image(file))
-    return imgs
 
 # Call this function so the Pygame library can initialize itself
 pygame.init()
@@ -58,7 +43,10 @@ player_group = pygame.sprite.Group()
 all_group = pygame.sprite.RenderUpdates()
 Player.containers = all_group
 
-player = Player(1, (100, 100), 0, player_images[0], player_images_shoot[0])
+players = Players()
+for i in range(10):
+    players.add_player()
+
 done = False
 
 orientation = 0
@@ -72,15 +60,7 @@ while not done:
     all_group.clear(screen, background_image)
 
     # move players
-    player.set_position_and_orientation(position, orientation)
-
-    orientation += randint(-5, 5)
-
-    if randint(0, 5) == 5:
-        player.shooting = True
-    else:
-        player.shooting = False
-
+    players.move_players()
 
     # update all
     all_group.update()
