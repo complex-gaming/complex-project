@@ -1,1 +1,1 @@
-for i in *.jpg; do sips -s format gif $i --out $i.gif; done
+for i in sumari*.png; do sips -s format gif $i --out sumari_minimap.gif; done

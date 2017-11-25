@@ -1,13 +1,12 @@
-import os
 from random import randint
 
 import pygame
 
 from game_map import GameMap
+from game_ticks import GameTicks
 from player import Player
 from players import Players
 from shooting_event import ShootingEvent
-from utils import load_images, load_image
 
 # Define some colors
 WINDOW_HEIGHT = 900
@@ -22,11 +21,9 @@ pygame.init()
 screen = pygame.display.set_mode([WINDOW_WIDTH, WINDOW_HEIGHT])
 
 # This sets the name of the window
-pygame.display.set_caption('CMSC 150 is cool')
+pygame.display.set_caption('Complex GUI')
 
 clock = pygame.time.Clock()
-
-# Before the loop, load the sounds:
 
 # Set positions of graphics
 background_position = [0, 0]
@@ -35,15 +32,23 @@ player_group = pygame.sprite.Group()
 all_group = pygame.sprite.RenderUpdates()
 Player.containers = all_group
 
+game_map = GameMap()
+game_map.load_map("Fools_Road_AAS_V1")
+background_image = game_map.scaled_map_image
+
+game_ticks = GameTicks("../junction-gaming/matches/37549105/sorted_ticks.csv")
+count = 0
+for data in game_ticks.next_tick_data():
+    print(data)
+    count += 1
+    if count > 3:
+        break
+
 players = Players()
 for i in range(10):
     players.add_player()
 
 done = False
-
-game_map = GameMap()
-game_map.load_map("Fools_Road")
-background_image = game_map.scaled_map_image
 
 while not done:
     for event in pygame.event.get():
@@ -55,7 +60,6 @@ while not done:
 
     # move players
     players.move_players()
-
 
     # update all
     all_group.update()
