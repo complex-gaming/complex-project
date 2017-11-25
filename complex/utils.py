@@ -7,6 +7,7 @@ main_dir = os.path.split(os.path.abspath(__file__))[0]
 
 def load_image(file):
     file = os.path.join(main_dir, 'resources', file)
+    print("Load image: {}".format(file))
     try:
         surface = pygame.image.load(file)
     except pygame.error:
