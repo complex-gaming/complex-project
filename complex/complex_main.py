@@ -1,11 +1,14 @@
-import pygame
 import os
+from random import randint
+
+import pygame
+
+from player import Player
 
 # Define some colors
-WHITE = (255, 255, 255)
-BLACK = (0, 0, 0)
 WINDOW_HEIGHT = 900
 WINDOW_WIDTH = 900
+FPS = 10
 
 main_dir = os.path.split(os.path.abspath(__file__))[0]
 
@@ -44,30 +47,50 @@ background_position = [0, 0]
 # Load and set up graphics.
 background_image_orig = load_image("minimaps/albasrah_minimap.gif")
 background_image = pygame.transform.scale(background_image_orig, (WINDOW_WIDTH, WINDOW_HEIGHT))
-player_image = load_image("misc/player_blue.gif")
-player_image.set_colorkey(BLACK)
+player_images = load_images("misc/player_blue.gif", "misc/player_green.gif", "misc/player_gray.gif")
+player_images = [pygame.transform.scale(img, (30, 30))
+                 for img in player_images]
+player_images_shoot = load_images("misc/player_blue_shoot.gif", "misc/player_green_shoot.gif", "misc/player_gray_shoot.gif")
+player_images_shoot = [pygame.transform.scale(img, (30, 30))
+                       for img in player_images_shoot]
 
+player_group = pygame.sprite.Group()
+all_group = pygame.sprite.RenderUpdates()
+Player.containers = all_group
+
+player = Player(1, (100, 100), 0, player_images[0], player_images_shoot[0])
 done = False
 
+orientation = 0
+position = (500, 500)
 while not done:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             done = True
 
+    # clear screen
+    all_group.clear(screen, background_image)
+
+    # move players
+    player.set_position_and_orientation(position, orientation)
+
+    orientation += randint(-5, 5)
+
+    if randint(0, 5) == 5:
+        player.shooting = True
+    else:
+        player.shooting = False
+
+
+    # update all
+    all_group.update()
+
     # Copy image to screen:
     screen.blit(background_image, background_position)
 
-    # Get the current mouse position. This returns the position
-    # as a list of two numbers.
-    player_position = pygame.mouse.get_pos()
-    x = player_position[0]
-    y = player_position[1]
+    dirty = all_group.draw(screen)
+    pygame.display.update(dirty)
 
-    # Copy image to screen:
-    screen.blit(player_image, [x, y])
-
-    pygame.display.flip()
-
-    clock.tick(60)
+    clock.tick(FPS)
 
 pygame.quit()
