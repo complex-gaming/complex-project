@@ -34,18 +34,18 @@ class GameTicks:
                     player_data = dict()
                 current_timestamp = timestamp
                 player_data[int(row[PLAYER_ID])] = (float(row[POS_X]), float(row[POS_Y]),
-                                                    math.degrees(math.atan2(float(row[ROT_Y]), float(row[ROT_X]))) + 90)
+                                                    math.degrees(math.atan2(float(row[ROT_Y]), float(row[ROT_X]))) + 45)
 
     def get_next_tick_data(self):
         data, start_timestamp = self.tick_data[self.current_index]
         self.current_index += 1
         while True:
             if self.current_index > len(self.tick_data):
-                return data
+                return data, int(start_timestamp)
             next_data, next_timestamp = self.tick_data[self.current_index]
-            print(next_timestamp)
+            #print(next_timestamp)
             if abs(int(next_timestamp) - int(start_timestamp)) > 500:
-                return data
+                return data, int(start_timestamp)
             data.update(next_data)
             self.current_index += 1
 

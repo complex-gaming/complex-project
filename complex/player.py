@@ -8,7 +8,7 @@ WINDOW_HEIGHT = 900
 class Player(pygame.sprite.Sprite):
     containers = None
 
-    def __init__(self, id, position, orientation, image_normal, image_shoot, map_corners):
+    def __init__(self, id, position, orientation, image_normal, image_shoot, map_corners, team_number):
         pygame.sprite.Sprite.__init__(self, self.containers)
         self.id = id
         self.position = position
@@ -23,6 +23,7 @@ class Player(pygame.sprite.Sprite):
         self.shooting = False
         self.map_corners = map_corners
         self.calculate_map_limits()
+        self.team_number = team_number
 
     def update(self):
         if not self.shooting:
@@ -30,10 +31,9 @@ class Player(pygame.sprite.Sprite):
         else:
             self.image = self.rot_center(self.image_shoot_clean, self.orientation)
         self.rect = self.image.get_rect()
-        self.rect.x, self.rect.y = self.scale_position()
+        self.rect.x, self.rect.y = self.scale_position(self.position)
 
-    def scale_position(self):
-        pos = self.position
+    def scale_position(self, pos):
         x = (pos[0] - self.min_x)/(self.max_x - self.min_x) * WINDOW_WIDTH
         y = (pos[1] - self.min_y)/(self.max_y - self.min_y) * WINDOW_HEIGHT
         return x, y
