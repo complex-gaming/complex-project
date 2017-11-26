@@ -11,7 +11,7 @@ class Flags:
         self.flags = []
         flag_images = load_images("misc/flag_grey.gif", "misc/flag_blue.gif",
                 "misc/flag_red.gif")
-        self.images = [pygame.transform.scale(img, (40, 40))
+        self.images = [pygame.transform.scale(img, (70, 70))
                 for img in flag_images]
         self.game_map = game_map
 
