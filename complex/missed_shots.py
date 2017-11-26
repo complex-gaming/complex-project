@@ -9,7 +9,7 @@ POS_Y = 6
 ROT_X = 8
 ROT_Y = 9
 
-ROTATION_ADJUSTMENT = 0
+ROTATION_ADJUSTMENT = 180
 SHOOTING_EVENT_WINDOW = 5000
 WINDOW_WIDTH = 900
 WINDOW_HEIGHT = 900
@@ -23,6 +23,7 @@ class MissedShots:
         self._read_shooting_data()
         self.screen = screen
         self.map_corners = map_corners
+        self.calculate_map_limits()
 
     def _read_shooting_data(self):
         with open(self.shots_file, 'r') as f:
@@ -54,8 +55,9 @@ class MissedShots:
         events = []
         for key in self.missed_shots:
             if key in range(timestamp, timestamp + SHOOTING_EVENT_WINDOW):
-                pos = self.scale_position(self.missed_shots[key][0][0])
-                rot = self.scale_position(self.missed_shots[key][0][1])
+                for missed_shot in self.missed_shots[key]:
+                    pos = self.scale_position((missed_shot[0], missed_shot[1]))
+                    rot = missed_shot[1]
 
-                events.append(MissedShot(self.screen, pos, rot))
+                    events.append(MissedShot(self.screen, pos, rot))
         return events

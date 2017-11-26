@@ -6,6 +6,7 @@ import pygame
 from game_map import GameMap
 from game_ticks import GameTicks
 from game_timer import GameTimer
+from missed_shots import MissedShots
 from player import Player
 from flag import Flag
 from players import Players
@@ -54,6 +55,7 @@ with open("resources/csv/flags.csv", 'r') as csvfile:
         flags.add_flag(float(row['x']), float(row['y']), int(row['team_id']))
 
 shooting_events = ShootingEvents("../junction-gaming/matches/37549105/sorted_damage_dealt.csv", screen, game_map.map_corners)
+missed_shots = MissedShots("../junction-gaming/matches/37549105/sorted_weapon.csv", screen, game_map.map_corners)
 
 done = False
 pause = False
@@ -95,6 +97,7 @@ while not done:
 
     # update shooting events
     screen.lock()
+    missed = missed_shots.create_shooting_events(timestamp)
     shootings = shooting_events.create_shooting_events(timestamp)
     screen.unlock()
 
