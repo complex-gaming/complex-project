@@ -7,7 +7,7 @@ from game_map import GameMap
 from game_ticks import GameTicks
 from game_timer import GameTimer
 from missed_shots import MissedShots
-from player import Player
+from player import Player, PlayerId
 from flag import Flag
 from players import Players
 from flags import Flags
@@ -59,6 +59,7 @@ missed_shots = MissedShots("../junction-gaming/matches/37549105/sorted_weapon.cs
 
 done = False
 pause = False
+show_ids = False
 
 game_timer = None
 
@@ -74,6 +75,8 @@ while not done:
                 game_ticks.move_backwards()
             if keys[pygame.K_RIGHT]:
                 game_ticks.move_forward()
+            if keys[pygame.K_i]:
+                show_ids = not show_ids
     if pause:
         clock.tick(FPS)
         continue
@@ -100,6 +103,15 @@ while not done:
     shootings = shooting_events.create_shooting_events(timestamp)
     missed = missed_shots.create_shooting_events(timestamp)
     screen.unlock()
+
+    # update ids
+    player_ids = []
+    if show_ids:
+        for key in players.players:
+            player = players.players[key]
+            if not player:
+                continue
+            player_ids.append(PlayerId(screen, player.id, (player.rect.x, player.rect.y)))
 
     # Timer
     if not game_timer:

@@ -2,7 +2,7 @@ import pygame
 import math
 
 SHOT_LENGTH = 50
-ADJUSTMENT = 0
+ADJUSTMENT = 180
 
 
 class MissedShot:
