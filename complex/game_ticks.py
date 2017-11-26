@@ -43,7 +43,7 @@ class GameTicks:
             if self.current_index > len(self.tick_data):
                 return data, int(start_timestamp)
             next_data, next_timestamp = self.tick_data[self.current_index]
-            print(next_timestamp)
+            #print(next_timestamp)
             if abs(int(next_timestamp) - int(start_timestamp)) > 500:
                 return data, int(start_timestamp)
             data.update(next_data)
