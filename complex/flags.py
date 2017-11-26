@@ -19,5 +19,4 @@ class Flags:
         image = self.images[owner]
         position = (x, y)
         flag = Flag(position, image, self.game_map.map_corners)
-        flag.scale_position()
         self.flags.append(flag)
