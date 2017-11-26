@@ -18,6 +18,8 @@ class Flag(pygame.sprite.Sprite):
         self.map_corners = map_corners
         self.calculate_map_limits()
 
+        self.rect.x, self.rect.y = self.scale_position()
+
 
     def scale_position(self):
         pos = self.position
@@ -32,6 +34,3 @@ class Flag(pygame.sprite.Sprite):
         self.min_y = min(c[0][1], c[1][1])
         self.max_y = max(c[0][1], c[1][1])
 
-
-    def set_position(self, data):
-        self.position = data[0:2]

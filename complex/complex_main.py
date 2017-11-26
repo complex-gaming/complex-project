@@ -46,10 +46,10 @@ game_ticks.set_index(0)
 players = Players(game_map)
 flags = Flags(game_map)
 
-with open("resources/csv/flags.csv", 'rb') as csvfile:
+with open("resources/csv/flags.csv", 'r') as csvfile:
     reader = csv.DictReader(csvfile)
     for row in reader:
-        # print(row['x'], row['y'], row['team_id'])
+        print(row['x'], row['y'], row['team_id'])
         flags.add_flag(float(row['x']), float(row['y']), int(row['team_id']))
 
 # load flags
