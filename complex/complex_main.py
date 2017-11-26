@@ -65,6 +65,10 @@ while not done:
             keys = pygame.key.get_pressed()
             if keys[pygame.K_SPACE]:
                 pause = not pause
+            if keys[pygame.K_LEFT]:
+                game_ticks.move_backwards()
+            if keys[pygame.K_RIGHT]:
+                game_ticks.move_forward()
     if pause:
         clock.tick(FPS)
         continue

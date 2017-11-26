@@ -49,6 +49,12 @@ class GameTicks:
             data.update(next_data)
             self.current_index += 1
 
+    def move_backwards(self):
+        self.current_index = max(0, self.current_index - 200)
+
+    def move_forward(self):
+        self.current_index += 200
+
     def set_index(self, idx):
         if 0 <= idx <= len(self.tick_data):
             self.current_index = idx

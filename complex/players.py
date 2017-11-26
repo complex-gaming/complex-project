@@ -28,7 +28,7 @@ class Players:
         position = data[0:2]
         rotation = data[2]
 
-        if position[0] < 20000:
+        if position[0] < 15000:
             team_number = 2
         else:
             team_number = 1
@@ -51,7 +51,7 @@ class Players:
 
     def update_data(self, tick_data, timestamp):
         for key in tick_data:
-            if key not in self.players:
+            if key not in self.players or not self.players[key]:
                 self.add_player(key, tick_data[key], timestamp)
             self.move_player(key, tick_data[key], timestamp)
 
