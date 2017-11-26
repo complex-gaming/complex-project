@@ -28,7 +28,7 @@ class Players:
         position = data[0:2]
         rotation = data[2]
 
-        if position[0] < 0:
+        if position[0] < 20000:
             team_number = 2
         else:
             team_number = 1
