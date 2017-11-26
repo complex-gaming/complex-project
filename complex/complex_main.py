@@ -97,8 +97,8 @@ while not done:
 
     # update shooting events
     screen.lock()
-    missed = missed_shots.create_shooting_events(timestamp)
     shootings = shooting_events.create_shooting_events(timestamp)
+    missed = missed_shots.create_shooting_events(timestamp)
     screen.unlock()
 
     # Timer

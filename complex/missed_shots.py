@@ -9,7 +9,6 @@ POS_Y = 6
 ROT_X = 8
 ROT_Y = 9
 
-ROTATION_ADJUSTMENT = 180
 SHOOTING_EVENT_WINDOW = 5000
 WINDOW_WIDTH = 900
 WINDOW_HEIGHT = 900
@@ -34,8 +33,8 @@ class MissedShots:
                 timestamp = int(row[TIMESTAMP])
                 if not timestamp in self.missed_shots:
                     self.missed_shots[timestamp] = []
-                shooting_data =(float(row[POS_X]), float(row[POS_Y]),
-                                math.degrees(math.atan2(float(row[ROT_Y]), float(row[ROT_X]))) + ROTATION_ADJUSTMENT)
+                shooting_data = (float(row[POS_X]), float(row[POS_Y]),
+                                 math.degrees(math.atan2(float(row[ROT_Y]), float(row[ROT_X]))))
                 self.missed_shots[timestamp].append(shooting_data)
                 print("{}".format(shooting_data))
 
