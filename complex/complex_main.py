@@ -6,7 +6,7 @@ from game_map import GameMap
 from game_ticks import GameTicks
 from player import Player
 from players import Players
-from shooting_event import ShootingEvent
+from shooting_events import ShootingEvents
 
 # Define some colors
 WINDOW_HEIGHT = 900
@@ -40,8 +40,8 @@ game_ticks = GameTicks("../junction-gaming/matches/37549105/sorted_ticks.csv")
 game_ticks.set_index(0)
 
 players = Players(game_map)
-#for i in range(10):
-#    players.add_player()
+
+shooting_events = ShootingEvents("../junction-gaming/matches/37549105/sorted_damage_dealt.csv", screen, game_map.map_corners)
 
 done = False
 players_init = False
@@ -59,10 +59,13 @@ while not done:
 #            players.add_player()
 #        players_init = True
 
-    data = game_ticks.get_next_tick_data()
+    try:
+        data, timestamp = game_ticks.get_next_tick_data()
+    except:
+        done = True
 
     # move players
-    players.update_data(data)
+    players.update_data(data, timestamp)
 
     # update all
     all_group.update()
@@ -71,9 +74,9 @@ while not done:
     screen.blit(background_image, background_position)
 
     # update shooting events
-#    screen.lock()
-#    shooting_events = [ShootingEvent(screen, (randint(0, 900), randint(0, 900)), (randint(0, 900), randint(0, 900)))]
-#    screen.unlock()
+    screen.lock()
+    shootings = shooting_events.create_shooting_events(timestamp)
+    screen.unlock()
 
     dirty = all_group.draw(screen)
     pygame.display.update(dirty)
