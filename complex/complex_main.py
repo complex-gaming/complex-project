@@ -52,27 +52,25 @@ with open("resources/csv/flags.csv", 'r') as csvfile:
         print(row['x'], row['y'], row['team_id'])
         flags.add_flag(float(row['x']), float(row['y']), int(row['team_id']))
 
-# load flags
-#for i in range(10):
-#    players.add_player()
-
 shooting_events = ShootingEvents("../junction-gaming/matches/37549105/sorted_damage_dealt.csv", screen, game_map.map_corners)
 
 done = False
-players_init = False
+pause = False
 
 while not done:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             done = True
+        if event.type == pygame.KEYDOWN:
+            keys = pygame.key.get_pressed()
+            if keys[pygame.K_SPACE]:
+                pause = not pause
+    if pause:
+        clock.tick(FPS)
+        continue
 
     # clear screen
     all_group.clear(screen, background_image)
-
-#    if not players_init:
-#        for i in range(10):
-#            players.add_player()
-#        players_init = True
 
     try:
         data, timestamp = game_ticks.get_next_tick_data()
