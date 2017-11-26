@@ -1,11 +1,14 @@
 from random import randint
+import csv
 
 import pygame
 
 from game_map import GameMap
 from game_ticks import GameTicks
 from player import Player
+from flag import Flag
 from players import Players
+from flags import Flags
 from shooting_event import ShootingEvent
 
 # Define some colors
@@ -31,6 +34,7 @@ background_position = [0, 0]
 player_group = pygame.sprite.Group()
 all_group = pygame.sprite.RenderUpdates()
 Player.containers = all_group
+Flag.containers = all_group
 
 game_map = GameMap()
 game_map.load_map("Fools_Road_AAS_V1")
@@ -40,6 +44,15 @@ game_ticks = GameTicks("../junction-gaming/matches/37549105/sorted_ticks.csv")
 game_ticks.set_index(0)
 
 players = Players(game_map)
+flags = Flags(game_map)
+
+with open("resources/csv/flags.csv", 'rb') as csvfile:
+    reader = csv.DictReader(csvfile)
+    for row in reader:
+        # print(row['x'], row['y'], row['team_id'])
+        flags.add_flag(float(row['x']), float(row['y']), int(row['team_id']))
+
+# load flags
 #for i in range(10):
 #    players.add_player()
 
