@@ -5,6 +5,7 @@ import pygame
 
 from game_map import GameMap
 from game_ticks import GameTicks
+from game_timer import GameTimer
 from player import Player
 from flag import Flag
 from players import Players
@@ -57,6 +58,8 @@ shooting_events = ShootingEvents("../junction-gaming/matches/37549105/sorted_dam
 done = False
 pause = False
 
+game_timer = None
+
 while not done:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -94,6 +97,11 @@ while not done:
     screen.lock()
     shootings = shooting_events.create_shooting_events(timestamp)
     screen.unlock()
+
+    # Timer
+    if not game_timer:
+        game_timer = GameTimer(screen, timestamp)
+    game_timer.update(timestamp)
 
     dirty = all_group.draw(screen)
     pygame.display.update(dirty)
