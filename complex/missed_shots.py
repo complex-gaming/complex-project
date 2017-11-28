@@ -53,7 +53,7 @@ class MissedShots:
     def create_shooting_events(self, timestamp):
         events = []
         for key in self.missed_shots:
-            if key in range(timestamp, timestamp + SHOOTING_EVENT_WINDOW):
+            if key in range(timestamp - SHOOTING_EVENT_WINDOW, timestamp):
                 for missed_shot in self.missed_shots[key]:
                     pos = self.scale_position((missed_shot[0], missed_shot[1]))
                     rot = missed_shot[1]
