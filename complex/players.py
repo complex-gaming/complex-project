@@ -6,6 +6,7 @@ from player import Player
 from utils import load_images
 
 TIMESTAMP_THRESHOLD = 5000
+PLAYER_SCALE = 10
 
 
 class Players:
@@ -15,12 +16,12 @@ class Players:
         self.next_id = 0
         player_images = load_images("misc/team_blue.gif", "misc/team_red.gif",
                                     "misc/player_gray.gif")
-        self.player_images = [pygame.transform.scale(img, (20, 20))
+        self.player_images = [pygame.transform.scale(img, (PLAYER_SCALE, PLAYER_SCALE))
                               for img in player_images]
         player_images_shoot = load_images("misc/player_blue_shoot.gif",
                                           "misc/player_green_shoot.gif",
                                           "misc/player_gray_shoot.gif")
-        self.player_images_shoot = [pygame.transform.scale(img, (20, 20))
+        self.player_images_shoot = [pygame.transform.scale(img, (PLAYER_SCALE, PLAYER_SCALE))
                                     for img in player_images_shoot]
         self.game_map = game_map
 
@@ -28,7 +29,7 @@ class Players:
         position = data[0:2]
         rotation = data[2]
 
-        if position[0] < 15000:
+        if position[0] < 10000:
             team_number = 2
         else:
             team_number = 1

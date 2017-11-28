@@ -18,8 +18,8 @@ class Player(pygame.sprite.Sprite):
         self.image_shoot_clean = image_shoot.copy()
         self.rect = self.image.get_rect()
         self.orientation = orientation
-        screen = pygame.display.get_surface()
-        self.area = screen.get_rect()
+        self.screen = pygame.display.get_surface()
+        self.area = self.screen.get_rect()
         self.shooting = False
         self.map_corners = map_corners
         self.calculate_map_limits()
@@ -32,6 +32,7 @@ class Player(pygame.sprite.Sprite):
             self.image = self.rot_center(self.image_shoot_clean, self.orientation)
         self.rect = self.image.get_rect()
         self.rect.x, self.rect.y = self.scale_position(self.position)
+        self.id_text = PlayerId(self.screen, self.id, (self.rect.x, self.rect.y))
 
     def scale_position(self, pos):
         x = (pos[0] - self.min_x)/(self.max_x - self.min_x) * WINDOW_WIDTH
@@ -44,7 +45,6 @@ class Player(pygame.sprite.Sprite):
         self.max_x = max(c[0][0], c[1][0])
         self.min_y = min(c[0][1], c[1][1])
         self.max_y = max(c[0][1], c[1][1])
-
 
     def set_position_and_orientation(self, data):
         self.position = data[0:2]
@@ -64,3 +64,11 @@ class Player(pygame.sprite.Sprite):
         return rot_image
 
 
+class PlayerId:
+    def __init__(self, surface, id, position):
+        pygame.font.init()
+        self.font = pygame.font.Font("resources/fonts/meslo.ttf", 15)
+
+        text_surface = self.font.render(str(id), False, (200, 200, 200))
+        position = (position[0] - 10, position[1] + 10)
+        surface.blit(text_surface, position)

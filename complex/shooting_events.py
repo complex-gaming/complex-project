@@ -53,11 +53,12 @@ class ShootingEvents:
     def create_shooting_events(self, timestamp):
         events = []
         for key in self.shooting_data:
-            if key in range(timestamp, timestamp + SHOOTING_EVENT_WINDOW):
-                attacker_pos = self.scale_position(self.shooting_data[key][0][0])
-                victim_pos = self.scale_position(self.shooting_data[key][0][1])
+            if key in range(timestamp - SHOOTING_EVENT_WINDOW, timestamp):
+                for shooting in self.shooting_data[key]:
+                    attacker_pos = self.scale_position(shooting[0])
+                    victim_pos = self.scale_position(shooting[1])
 
-                events.append(ShootingEvent(self.screen, attacker_pos, victim_pos))
+                    events.append(ShootingEvent(self.screen, attacker_pos, victim_pos))
         return events
 
 
